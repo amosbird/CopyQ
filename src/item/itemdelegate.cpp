@@ -67,6 +67,7 @@ ItemDelegate::ItemDelegate(QAbstractItemView *view, QWidget *parent)
     , m_showRowNumber(false)
     , m_rowNumberPalette()
     , m_antialiasing(true)
+    , m_createSimpleItems(false)
     , m_cache()
 {
 }
@@ -145,7 +146,11 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
 
     ItemWidget *w = m_cache[n];
     if (w == NULL) {
-        w = ConfigurationManager::instance()->itemFactory()->createItem(index, m_view->viewport());
+        ItemFactory *itemFactory = ConfigurationManager::instance()->itemFactory();
+        QWidget *parent = m_view->viewport();
+        w = m_createSimpleItems
+                ? itemFactory->createSimpleItem(index, parent, m_antialiasing)
+                : itemFactory->createItem(index, parent, m_antialiasing);
         setIndexWidget(index, w);
     }
 
@@ -189,7 +194,8 @@ bool ItemDelegate::otherItemLoader(const QModelIndex &index, bool next)
     ItemWidget *w = m_cache[index.row()];
     if (w != NULL) {
         ItemWidget *w2 =
-                ConfigurationManager::instance()->itemFactory()->otherItemLoader(index, w, next);
+                ConfigurationManager::instance()->itemFactory()->otherItemLoader(
+                    index, w, next, m_antialiasing);
         if (w2 != NULL) {
             setIndexWidget(index, w2);
             return true;
@@ -215,6 +221,11 @@ void ItemDelegate::loadEditorSettings(ItemEditorWidget *editor)
     editor->setSaveOnReturnKey(m_saveOnReturnKey);
 }
 
+void ItemDelegate::highlightMatches(ItemWidget *itemWidget) const
+{
+    itemWidget->setHighlight(m_re, m_foundFont, m_foundPalette);
+}
+
 void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
 {
     reset(&m_cache[index.row()], w);
@@ -222,14 +233,6 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
         return;
 
     QWidget *ww = w->widget();
-
-    if (!m_antialiasing) {
-        QFont f = ww->font();
-        f.setStyleStrategy(QFont::NoAntialias);
-        ww->setFont(f);
-        foreach (QWidget *child, ww->findChildren<QWidget *>("item_child"))
-            child->setFont(f);
-    }
 
     // Try to get proper size by showing item momentarily.
     ww->show();
@@ -289,6 +292,15 @@ void ItemDelegate::setRowNumberVisibility(bool visible)
     m_showRowNumber = visible;
 }
 
+void ItemDelegate::setShowSimpleItems(bool showSimpleItems)
+{
+    if (m_createSimpleItems == showSimpleItems)
+        return;
+
+    m_createSimpleItems = showSimpleItems;
+    invalidateCache();
+}
+
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                          const QModelIndex &index) const
 {
@@ -317,8 +329,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
         painter->restore();
     }
 
-    /* highlight search string */
-    w->setHighlight(m_re, m_foundFont, m_foundPalette);
+    highlightMatches(w);
 
     /* text color for selected/unselected item */
     QWidget *ww = w->widget();

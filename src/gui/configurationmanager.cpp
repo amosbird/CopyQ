@@ -525,6 +525,7 @@ void ConfigurationManager::initOptions()
     bind("notification_maximum_width", ui->spinBoxNotificationMaximumWidth, 300);
     bind("notification_maximum_height", ui->spinBoxNotificationMaximumHeight, 100);
     bind("edit_ctrl_return", ui->checkBoxEditCtrlReturn, true);
+    bind("show_simple_items", ui->checkBoxShowSimpleItems, false);
     bind("move", ui->checkBoxMove, true);
     bind("check_clipboard", ui->checkBoxClip, true);
     bind("confirm_exit", ui->checkBoxConfirmExit, true);

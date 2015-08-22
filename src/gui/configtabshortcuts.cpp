@@ -120,6 +120,8 @@ void ConfigTabShortcuts::initShortcuts()
                   "move_to_clipboard", QKeySequence(), "clipboard", IconPaste );
     w->addAction( Actions::Item_ShowContent, tr("&Show Content..."),
                   "show_item_content", tr("F4"), "dialog-information", IconInfoSign );
+    w->addAction( Actions::Item_ShowPreview, tr("&Show Preview"),
+                  "show_item_preview", tr("F7"), "document-print-preview", IconEyeOpen );
     w->addAction( Actions::Item_Edit, tr("&Edit"), "edit", tr("F2"),
                   "accessories-text-editor", IconEdit );
     w->addAction( Actions::Item_EditNotes, tr("Edit &Notes"),

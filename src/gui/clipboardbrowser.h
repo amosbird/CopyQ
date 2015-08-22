@@ -56,6 +56,7 @@ struct ClipboardBrowserShared {
     bool viMode;
     bool saveOnReturnKey;
     bool moveItemOnReturnKey;
+    bool showSimpleItems;
     int minutesToExpire;
 };
 typedef QSharedPointer<ClipboardBrowserShared> ClipboardBrowserSharedPtr;
@@ -235,6 +236,8 @@ class ClipboardBrowser : public QListView
         void otherItemLoader(bool next);
 
         void move(int key);
+
+        QWidget *currentItemWidget();
 
     public slots:
         /**

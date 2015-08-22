@@ -46,8 +46,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>526</width>
-            <height>555</height>
+            <width>522</width>
+            <height>543</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_15">
@@ -461,8 +461,8 @@ Note: This is not be supported on all systems.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>477</width>
-            <height>335</height>
+            <width>538</width>
+            <height>526</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -640,6 +640,18 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
               </widget>
              </item>
              <item>
+              <widget class="QCheckBox" name="checkBoxShowSimpleItems">
+               <property name="toolTip">
+                <string>Show single line description of each item.
+
+Use Item Preview to display whole items.</string>
+               </property>
+               <property name="text">
+                <string>Sho&amp;w simple items</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QGroupBox" name="groupBox_3">
                <property name="title">
                 <string>After item is activated (double-click or Enter key), copy it to clipboard and ...</string>
@@ -740,8 +752,8 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>443</width>
-            <height>172</height>
+            <width>538</width>
+            <height>526</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -945,8 +957,8 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>409</width>
-            <height>320</height>
+            <width>538</width>
+            <height>526</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_13">
@@ -1434,6 +1446,7 @@ Set to 0 to disable.</string>
   <tabstop>spinBoxExpireTab</tabstop>
   <tabstop>lineEditEditor</tabstop>
   <tabstop>checkBoxEditCtrlReturn</tabstop>
+  <tabstop>checkBoxShowSimpleItems</tabstop>
   <tabstop>checkBoxMove</tabstop>
   <tabstop>checkBoxActivateCloses</tabstop>
   <tabstop>checkBoxActivateFocuses</tabstop>

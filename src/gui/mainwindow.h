@@ -441,6 +441,8 @@ private slots:
 
     void updateContextMenuTimeout();
 
+    void updateItemPreview();
+
     void onRunningActionsCountChanged();
 
     void onAboutToQuit();

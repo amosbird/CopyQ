@@ -153,6 +153,7 @@ ClipboardBrowserShared::ClipboardBrowserShared()
     , viMode(false)
     , saveOnReturnKey(false)
     , moveItemOnReturnKey(false)
+    , showSimpleItems(false)
     , minutesToExpire(0)
 {
 }
@@ -166,6 +167,7 @@ void ClipboardBrowserShared::loadFromConfiguration()
     viMode = cm->value("vi").toBool();
     saveOnReturnKey = !cm->value("edit_ctrl_return").toBool();
     moveItemOnReturnKey = cm->value("move").toBool();
+    showSimpleItems = cm->value("show_simple_items").toBool();
     minutesToExpire = cm->value("expire_tab").toInt();
 }
 
@@ -1655,6 +1657,8 @@ void ClipboardBrowser::loadSettings()
         d.loadEditorSettings(m_editor);
         setEditorWidget(m_editor);
     }
+
+    d.setShowSimpleItems(m_sharedData->showSimpleItems);
 }
 
 void ClipboardBrowser::loadItems()
@@ -1769,6 +1773,21 @@ void ClipboardBrowser::move(int key)
 {
     m.moveItemsWithKeyboard(selectedIndexes(), key);
     scrollTo( currentIndex() );
+}
+
+QWidget *ClipboardBrowser::currentItemWidget()
+{
+    ItemFactory *itemFactory = ConfigurationManager::instance()->itemFactory();
+    const QModelIndex index = currentIndex();
+    ItemWidget *itemWidget =
+            itemFactory->createItem(index, this, d.fontAntialiasing(), false);
+    QWidget *w = itemWidget->widget();
+
+    w->setStyleSheet(styleSheet());
+
+    d.highlightMatches(itemWidget);
+
+    return w;
 }
 
 void ClipboardBrowser::invalidateItemCache()
