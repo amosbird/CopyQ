@@ -2391,6 +2391,18 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 if (c)
                     activateCurrentItem();
                 return;
+            case Qt::Key_E:
+                enterBrowseMode();
+                c->editSelected();
+                return;
+            case Qt::Key_J:
+                if (c)
+                    c->setCurrent( c->currentIndex().row() + 1);
+                return;
+            case Qt::Key_K:
+                if (c)
+                    c->setCurrent( c->currentIndex().row() - 1);
+                return;
             default:
                 QMainWindow::keyPressEvent(event);
                 break;

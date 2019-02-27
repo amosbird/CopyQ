@@ -1394,12 +1394,16 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 
     switch (key) {
     // This fixes few issues with default navigation and item selections.
+    case Qt::Key_J:
+    case Qt::Key_K:
     case Qt::Key_Up:
     case Qt::Key_Down:
     case Qt::Key_PageDown:
     case Qt::Key_PageUp:
     case Qt::Key_Home:
     case Qt::Key_End: {
+        if (mods != Qt::ControlModifier && (key == Qt::Key_K || key == Qt::Key_J))
+            break;
         const auto current = currentIndex();
         int row = current.row();
         const int h = viewport()->contentsRect().height();
@@ -1449,9 +1453,9 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             else
                 row = direction > 0 ? qMax(current.row() + 1, ind.row()) : qMin(current.row() - 1, ind.row());
         } else {
-            if (key == Qt::Key_Up) {
+            if (key == Qt::Key_Up || key == Qt::Key_K) {
                 --row;
-            } else if (key == Qt::Key_Down) {
+            } else if (key == Qt::Key_Down || key == Qt::Key_J) {
                 ++row;
             } else {
                 int direction;

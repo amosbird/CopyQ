@@ -421,7 +421,11 @@ void FilterLineEdit::keyPressEvent(QKeyEvent *ke)
         return;
     }
 
-    FancyLineEdit::keyPressEvent(ke);
+    if (ke->modifiers().testFlag(Qt::ControlModifier)
+        && (ke->key() == Qt::Key_E || ke->key() == Qt::Key_J || ke->key() == Qt::Key_K))
+        ke->ignore();
+    else
+        FancyLineEdit::keyPressEvent(ke);
 }
 
 void FilterLineEdit::hideEvent(QHideEvent *event)
